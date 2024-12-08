@@ -29,7 +29,7 @@ export default function Sidebar() {
   return (
     <ul className="container-sidebar">
       <li>
-        <Link href="/">Beranda</Link>
+        <Link href="/">Dashboard</Link>
       </li>
       <li className="has-sub queue" onClick={() => toogleSubMenu('queue')}>
         <Link href="">Antrian <span><FontAwesomeIcon icon={faChevronUp} /></span></Link>
@@ -67,6 +67,12 @@ export default function Sidebar() {
             <Link href="/customer/add">Add</Link>
           </li>
         </ul>
+      </li>
+      <li>
+        <Link href="/check-doctor">Check Doctor</Link>
+      </li>
+      <li>
+        <Link href="/schedule-control">Schedule Control</Link>
       </li>
     </ul>
   )

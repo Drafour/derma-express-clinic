@@ -1,5 +1,7 @@
 {
-  "/page": "app/page.js",
+  "/schedule-control/page": "app/schedule-control/page.js",
   "/queue/gate/page": "app/queue/gate/page.js",
-  "/login/page": "app/login/page.js"
+  "/customer/add/page": "app/customer/add/page.js",
+  "/admission/page": "app/admission/page.js",
+  "/check-doctor/page": "app/check-doctor/page.js"
 }

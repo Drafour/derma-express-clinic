@@ -1,6 +1,7 @@
 "use client";
 
 import $ from "jquery";
+import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getAdmission } from "../utils/axios";
@@ -44,7 +45,7 @@ export default function Page() {
                            <td>-</td>
                            <td>-</td>
                            <td>` + data_admission[i].visitType + `</td>
-                           <td>-</td>
+                           <td><a href="">Edit</a></td>
                          </tr>`;
           }
 
@@ -84,7 +85,7 @@ export default function Page() {
                   <th>New Customer</th>
                   <th>Email</th>
                   <th>Visit Type</th>
-                  <th>Edit</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody id="list-admission">
@@ -105,7 +106,7 @@ export default function Page() {
                   <td>No</td>
                   <td>john.doe@email.com</td>
                   <td>New</td>
-                  <td>-</td>
+                  <td><Link href="">Edit</Link></td>
                 </tr>
               </tbody>
             </table>

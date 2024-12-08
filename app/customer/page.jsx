@@ -1,6 +1,7 @@
 "use client";
 
 import $ from "jquery";
+import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getCustomer } from "../utils/axios";
@@ -34,7 +35,7 @@ export default function Page() {
                            <td>` + data_customer[i].address + `</td>
                            <td>` + data_customer[i].email + `</td>
                            <td>` + data_customer[i].IdCardNo + `</td>
-                           <td>-</td>
+                           <td><a href="">Edit</a></td>
                          </tr>`;
           }
 
@@ -64,7 +65,7 @@ export default function Page() {
                 <th>Address</th>
                 <th>Email</th>
                 <th>Identity No.</th>
-                <th>Edit</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody id="list-customer">
@@ -75,7 +76,7 @@ export default function Page() {
                 <td>Jl. Buntu No.99</td>
                 <td>john.doe@email.com</td>
                 <td>-</td>
-                <td>-</td>
+                <td><Link href="">Edit</Link></td>
               </tr>
             </tbody>
           </table>

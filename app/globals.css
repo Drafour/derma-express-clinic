@@ -17,6 +17,11 @@ table th {
 }
 
 
+.hidden {
+  display: none !important;
+}
+
+
 .container-login {
   position: fixed;
   top: 0;
@@ -138,6 +143,12 @@ table th {
   width: calc(100% - 250px);
   height: calc(100vh - 66px);
   overflow-x: auto;
+}
+.container-body .section-data .container-tab .btn {
+  margin-right: 10px;
+}
+.container-body .section-data .container-tab-content {
+  display: flex;
 }
 
 
