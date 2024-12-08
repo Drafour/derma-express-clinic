@@ -1,6 +1,5 @@
 {
+  "/page": "app/page.js",
   "/queue/gate/page": "app/queue/gate/page.js",
-  "/admission/page": "app/admission/page.js",
-  "/customer/page": "app/customer/page.js",
-  "/customer/add/page": "app/customer/add/page.js"
+  "/login/page": "app/login/page.js"
 }

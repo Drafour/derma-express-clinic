@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const dermaster_url = 'http://103.224.100.38:8001/v1';
+const dermaster_url = '/apis';
 
 export const authLogin = (body) => {
   return axios.post(`${dermaster_url}/auth/login`, body);
