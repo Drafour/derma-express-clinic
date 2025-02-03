@@ -80,32 +80,39 @@ export default function Page() {
         const email    = user_email;
         const password = user_password;
 
-        authLogin({email, password}).then(res => {
-          console.log(res.data);
+        // authLogin({email, password}).then(res => {
+        //   console.log(res.data);
 
-          if (res.data.statusCode == 200) {
-            const token = res.data.data.accessToken;
+        //   if (res.data.statusCode == 200) {
+        //     const token = res.data.data.accessToken;
 
-            localStorage.setItem('token', token);
+        //     localStorage.setItem('token', token);
       
-            window.location.href = '/';
-          }
-          else {
-            submit_status = 0;
+        //     window.location.href = '/';
+        //   }
+        //   else {
+        //     submit_status = 0;
       
-            $('#user-email, #user-password').prop('disabled', false);
-            $('.btn-login').html('Sign in');
-            $('.error-input').html('Terjadi kesalahan. Silahkan coba lagi nanti.');
-          }
-        }).catch(err => {
-          console.log(err.response.data);
+        //     $('#user-email, #user-password').prop('disabled', false);
+        //     $('.btn-login').html('Sign in');
+        //     $('.error-input').html('Terjadi kesalahan. Silahkan coba lagi nanti.');
+        //   }
+        // }).catch(err => {
+        //   console.log(err.response.data);
 
-          submit_status = 0;
+        //   submit_status = 0;
     
-          $('#user-email, #user-password').prop('disabled', false);
-          $('.btn-login').html('Sign in');
-          $('.error-input').html(`${err.response.data.message}`);
-        })
+        //   $('#user-email, #user-password').prop('disabled', false);
+        //   $('.btn-login').html('Sign in');
+        //   $('.error-input').html(`${err.response.data.message}`);
+        // })
+
+
+        const token = '123';
+
+        localStorage.setItem('token', token);
+      
+        window.location.href = '/';
       }
     }
   }

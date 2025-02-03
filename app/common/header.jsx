@@ -15,20 +15,20 @@ export default function Header() {
   console.log('pathname = '+pathname);
 
   useEffect(() => {
-    if (localStorage.getItem('token') !== null) {
-      const token    = localStorage.getItem('token');
-      const decoded  = jwtDecode(token);
-      const exp      = decoded.exp;
-      // const date_exp = new Date(exp * 1000);
-      const date_now = new Date();
-      const now      = parseInt(date_now.getTime() / 1000);
+    // if (localStorage.getItem('token') !== null) {
+    //   const token    = localStorage.getItem('token');
+    //   const decoded  = jwtDecode(token);
+    //   const exp      = decoded.exp;
+    //   // const date_exp = new Date(exp * 1000);
+    //   const date_now = new Date();
+    //   const now      = parseInt(date_now.getTime() / 1000);
 
-      console.log(token);
+    //   console.log(token);
 
-      if (now >= exp) {
-        logoutSubmit();
-      }
-    }
+    //   if (now >= exp) {
+    //     logoutSubmit();
+    //   }
+    // }
 
     if (pathname == '/login') {
       $('.container-navbar').remove();
