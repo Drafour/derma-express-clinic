@@ -1,7 +1,7 @@
 "use client";
 
 import $ from "jquery";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { searchCustomer } from "../../../utils/axios";
 
@@ -86,22 +86,24 @@ export default function Page() {
   }
 
   return (
-    <div>
-      <div className="container-body transition">
-        <div className="section-admission-search text-center w-50 margin-auto">
-          <h2>Cari Data Pasien</h2>
-          <p>Cari data pasien berdasarkan nama, Nomor HP atau Nomor KTP.</p>
-          <div className="flex flex-column dropdown-search">
-            <label className="m-bottom-5" htmlFor="input-patient">Name / Phone / ID</label>
-            <input type="text" id="input-patient" autoComplete="off" />
-            <ul className="dropdown-content hidden"></ul>
+    <Suspense>
+      <div>
+        <div className="container-body transition">
+          <div className="section-admission-search text-center w-50 margin-auto">
+            <h2>Cari Data Pasien</h2>
+            <p>Cari data pasien berdasarkan nama, Nomor HP atau Nomor KTP.</p>
+            <div className="flex flex-column dropdown-search">
+              <label className="m-bottom-5" htmlFor="input-patient">Name / Phone / ID</label>
+              <input type="text" id="input-patient" autoComplete="off" />
+              <ul className="dropdown-content hidden"></ul>
+            </div>
+            {/* <div>
+              <a href="/receptionist/admission/patient-details" className="btn btn-primary">Search</a>
+              <a href="/receptionist/admission/add-patient" className="btn btn-secondary-fill">Add</a>
+            </div> */}
           </div>
-          {/* <div>
-            <a href="/receptionist/admission/patient-details" className="btn btn-primary">Search</a>
-            <a href="/receptionist/admission/add-patient" className="btn btn-secondary-fill">Add</a>
-          </div> */}
         </div>
       </div>
-    </div>
+    </Suspense>
   )
 }

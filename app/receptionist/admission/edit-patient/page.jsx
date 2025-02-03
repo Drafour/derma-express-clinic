@@ -1,7 +1,7 @@
 "use client";
 
 import $ from "jquery";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getCustomerById, getCountry, getProvince, getRegency, editCustomer } from "../../../utils/axios";
 import GlobalVariable from "../../../globals.js";
@@ -368,149 +368,151 @@ export default function Page() {
   }
 
   return (
-    <div>
-      <div className="container-body transition">
-        <div className="section-add-patient">
-          <div className="flex flex-column w-70 margin-auto">
-            <div className="flex m-bottom-20">
-              <div className="w-50">
-                <label className="m-bottom-5" htmlFor="patient-full-name">Customer Name</label>
-                <input type="text" id="patient-full-name" autoComplete="off" />
+    <Suspense>
+      <div>
+        <div className="container-body transition">
+          <div className="section-add-patient">
+            <div className="flex flex-column w-70 margin-auto">
+              <div className="flex m-bottom-20">
+                <div className="w-50">
+                  <label className="m-bottom-5" htmlFor="patient-full-name">Customer Name</label>
+                  <input type="text" id="patient-full-name" autoComplete="off" />
+                  <span className="error-input"></span>
+                </div>
+                <div className="w-50">
+                  <label className="m-bottom-5" htmlFor="patient-alias-name">Alias Name</label>
+                  <input type="text" id="patient-alias-name" autoComplete="off" />
+                  <span className="error-input"></span>
+                </div>
+              </div>
+              <div className="flex m-bottom-20">
+                <div className="w-33">
+                  <label className="m-bottom-5" htmlFor="patient-gender">Gender</label>
+                  <select id="patient-gender">
+                    <option value=""></option>
+                    <option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                  </select>
+                  <span className="error-input"></span>
+                </div>
+                <div className="w-33">
+                  <label className="m-bottom-5" htmlFor="patient-id-type">ID Type</label>
+                  <select id="patient-id-type">
+                    <option value=""></option>
+                    <option value="KTP">KTP</option>
+                    <option value="Passport">Passport</option>
+                  </select>
+                  <span className="error-input"></span>
+                </div>
+                <div className="w-33">
+                  <label className="m-bottom-5" htmlFor="patient-id-card-number">ID Card Number</label>
+                  <input type="text" id="patient-id-card-number" autoComplete="off" />
+                  <span className="error-input"></span>
+                </div>
+              </div>
+              <div className="flex m-bottom-20">
+                <div className="w-50">
+                  <label className="m-bottom-5" htmlFor="patient-place-birth">Place of Birth</label>
+                  <input type="text" id="patient-place-birth" autoComplete="off" />
+                  <span className="error-input"></span>
+                </div>
+                <div className="w-50">
+                  <label className="m-bottom-5" htmlFor="patient-date-birth">Date of Birth</label>
+                  <input type="date" id="patient-date-birth" autoComplete="off" />
+                  <span className="error-input"></span>
+                </div>
+              </div>
+              <div className="m-bottom-20">
+                <label className="m-bottom-5" htmlFor="patient-address">Address</label>
+                <textarea id="patient-address" rows="4"></textarea>
                 <span className="error-input"></span>
               </div>
-              <div className="w-50">
-                <label className="m-bottom-5" htmlFor="patient-alias-name">Alias Name</label>
-                <input type="text" id="patient-alias-name" autoComplete="off" />
-                <span className="error-input"></span>
+              <div className="flex m-bottom-20">
+                <div className="w-33">
+                  <label className="m-bottom-5" htmlFor="patient-country">Country</label>
+                  <select id="patient-country"></select>
+                  <span className="error-input"></span>
+                </div>
+                <div className="w-33">
+                  <label className="m-bottom-5" htmlFor="patient-province">Province</label>
+                  <select id="patient-province" disabled></select>
+                  <span className="error-input"></span>
+                </div>
+                <div className="w-33">
+                  <label className="m-bottom-5" htmlFor="patient-city">City</label>
+                  <select id="patient-city" disabled></select>
+                  <span className="error-input"></span>
+                </div>
               </div>
+              <div className="flex m-bottom-20">
+                <div className="w-50">
+                  <label className="m-bottom-5" htmlFor="patient-country-phone-code">Country Phone Code</label>
+                  <input type="text" id="patient-country-phone-code" autoComplete="off" disabled />
+                  <span className="error-input"></span>
+                </div>
+                <div className="w-50">
+                  <label className="m-bottom-5" htmlFor="patient-phone-number">Phone Number</label>
+                  <input type="text" id="patient-phone-number" autoComplete="off" />
+                  <span className="error-input"></span>
+                </div>
+              </div>
+              <div className="flex m-bottom-20">
+                <div className="w-50">
+                  <label className="m-bottom-5" htmlFor="patient-email">Email</label>
+                  <input type="email" id="patient-email" autoComplete="off" />
+                  <span className="error-input"></span>
+                </div>
+                <div className="w-50">
+                  <label className="m-bottom-5" htmlFor="patient-reference">Reference</label>
+                  <select id="patient-reference">
+                    <option value=""></option>
+                    <option value="Teman/Keluarga">Teman/Keluarga</option>
+                    <option value="Instagram_Derma_Express">Instagram Derma Express</option>
+                    <option value="Instagram_Klinik">Instagram Klinik</option>
+                    <option value="Domisili">Domisili</option>
+                    <option value="TikTok_dr._Angelia">TikTok dr. Angelia</option>
+                    <option value="TikTok_Derma_Express">TikTok Derma Express</option>
+                    <option value="TikTok_Klinik_Lokal">TikTok Klinik Lokal</option>
+                    <option value="Billboard">Billboard</option>
+                    <option value="YouTube">YouTube</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="Google">Google</option>
+                    <option value="Lain-Lain">Lain-Lain</option>
+                  </select>
+                  <span className="error-input"></span>
+                </div>
+              </div>
+              <div className="flex m-bottom-20">
+                <div className="w-50">
+                  <label className="m-bottom-5" htmlFor="patient-customer-status">Customer Status</label>
+                  <select id="patient-customer-status">
+                    <option value=""></option>
+                    <option value="Eksternal">Eksternal</option>
+                    <option value="Internal">Internal</option>
+                    <option value="Mitra">Mitra</option>
+                  </select>
+                  <span className="error-input"></span>
+                </div>
+                <div className="w-50">
+                  <label className="m-bottom-5" htmlFor="patient-active-status">Active Status</label>
+                  <select id="patient-active-status">
+                    <option value=""></option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                  </select>
+                  <span className="error-input"></span>
+                </div>
+              </div>
+              <div className="m-top-20 result-process text-center"></div>
             </div>
-            <div className="flex m-bottom-20">
-              <div className="w-33">
-                <label className="m-bottom-5" htmlFor="patient-gender">Gender</label>
-                <select id="patient-gender">
-                  <option value=""></option>
-                  <option value="Female">Female</option>
-                  <option value="Male">Male</option>
-                </select>
-                <span className="error-input"></span>
-              </div>
-              <div className="w-33">
-                <label className="m-bottom-5" htmlFor="patient-id-type">ID Type</label>
-                <select id="patient-id-type">
-                  <option value=""></option>
-                  <option value="KTP">KTP</option>
-                  <option value="Passport">Passport</option>
-                </select>
-                <span className="error-input"></span>
-              </div>
-              <div className="w-33">
-                <label className="m-bottom-5" htmlFor="patient-id-card-number">ID Card Number</label>
-                <input type="text" id="patient-id-card-number" autoComplete="off" />
-                <span className="error-input"></span>
-              </div>
-            </div>
-            <div className="flex m-bottom-20">
-              <div className="w-50">
-                <label className="m-bottom-5" htmlFor="patient-place-birth">Place of Birth</label>
-                <input type="text" id="patient-place-birth" autoComplete="off" />
-                <span className="error-input"></span>
-              </div>
-              <div className="w-50">
-                <label className="m-bottom-5" htmlFor="patient-date-birth">Date of Birth</label>
-                <input type="date" id="patient-date-birth" autoComplete="off" />
-                <span className="error-input"></span>
-              </div>
-            </div>
-            <div className="m-bottom-20">
-              <label className="m-bottom-5" htmlFor="patient-address">Address</label>
-              <textarea id="patient-address" rows="4"></textarea>
-              <span className="error-input"></span>
-            </div>
-            <div className="flex m-bottom-20">
-              <div className="w-33">
-                <label className="m-bottom-5" htmlFor="patient-country">Country</label>
-                <select id="patient-country"></select>
-                <span className="error-input"></span>
-              </div>
-              <div className="w-33">
-                <label className="m-bottom-5" htmlFor="patient-province">Province</label>
-                <select id="patient-province" disabled></select>
-                <span className="error-input"></span>
-              </div>
-              <div className="w-33">
-                <label className="m-bottom-5" htmlFor="patient-city">City</label>
-                <select id="patient-city" disabled></select>
-                <span className="error-input"></span>
-              </div>
-            </div>
-            <div className="flex m-bottom-20">
-              <div className="w-50">
-                <label className="m-bottom-5" htmlFor="patient-country-phone-code">Country Phone Code</label>
-                <input type="text" id="patient-country-phone-code" autoComplete="off" disabled />
-                <span className="error-input"></span>
-              </div>
-              <div className="w-50">
-                <label className="m-bottom-5" htmlFor="patient-phone-number">Phone Number</label>
-                <input type="text" id="patient-phone-number" autoComplete="off" />
-                <span className="error-input"></span>
-              </div>
-            </div>
-            <div className="flex m-bottom-20">
-              <div className="w-50">
-                <label className="m-bottom-5" htmlFor="patient-email">Email</label>
-                <input type="email" id="patient-email" autoComplete="off" />
-                <span className="error-input"></span>
-              </div>
-              <div className="w-50">
-                <label className="m-bottom-5" htmlFor="patient-reference">Reference</label>
-                <select id="patient-reference">
-                  <option value=""></option>
-                  <option value="Teman/Keluarga">Teman/Keluarga</option>
-                  <option value="Instagram_Derma_Express">Instagram Derma Express</option>
-                  <option value="Instagram_Klinik">Instagram Klinik</option>
-                  <option value="Domisili">Domisili</option>
-                  <option value="TikTok_dr._Angelia">TikTok dr. Angelia</option>
-                  <option value="TikTok_Derma_Express">TikTok Derma Express</option>
-                  <option value="TikTok_Klinik_Lokal">TikTok Klinik Lokal</option>
-                  <option value="Billboard">Billboard</option>
-                  <option value="YouTube">YouTube</option>
-                  <option value="Facebook">Facebook</option>
-                  <option value="Google">Google</option>
-                  <option value="Lain-Lain">Lain-Lain</option>
-                </select>
-                <span className="error-input"></span>
-              </div>
-            </div>
-            <div className="flex m-bottom-20">
-              <div className="w-50">
-                <label className="m-bottom-5" htmlFor="patient-customer-status">Customer Status</label>
-                <select id="patient-customer-status">
-                  <option value=""></option>
-                  <option value="Eksternal">Eksternal</option>
-                  <option value="Internal">Internal</option>
-                  <option value="Mitra">Mitra</option>
-                </select>
-                <span className="error-input"></span>
-              </div>
-              <div className="w-50">
-                <label className="m-bottom-5" htmlFor="patient-active-status">Active Status</label>
-                <select id="patient-active-status">
-                  <option value=""></option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                </select>
-                <span className="error-input"></span>
-              </div>
-            </div>
-            <div className="m-top-20 result-process text-center"></div>
           </div>
-        </div>
-        <div className="section-patient-details-footer">
-          <div className="flex align-center justify-content-center w-90 margin-auto">
-            <button className="btn btn-primary btn-edit-customer" onClick={() => editCustomerSubmit()}>Next</button>
+          <div className="section-patient-details-footer">
+            <div className="flex align-center justify-content-center w-90 margin-auto">
+              <button className="btn btn-primary btn-edit-customer" onClick={() => editCustomerSubmit()}>Next</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   )
 }

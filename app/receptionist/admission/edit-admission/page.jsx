@@ -2,7 +2,7 @@
 
 import $ from "jquery";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getAdmissionById, getDoctors, editAdmission } from "../../../utils/axios";
 import GlobalVariable from "../../../globals.js";
@@ -184,185 +184,187 @@ export default function Page() {
   }
 
   return (
-    <div>
-      <div className="container-body transition">
-        <div className="section-patient-details-header">
-          <div className="flex align-center w-90 margin-auto">
-            <div className="header-left flex align-center">
-              <div className="patient-picture"><span>DS</span></div>
-              <div className="patient-name">
-                {/* <p>DM89006076</p> */}
-                <h4>Dian Sastrowardoyo</h4>
-                <p>Reguler</p>
+    <Suspense>
+      <div>
+        <div className="container-body transition">
+          <div className="section-patient-details-header">
+            <div className="flex align-center w-90 margin-auto">
+              <div className="header-left flex align-center">
+                <div className="patient-picture"><span>DS</span></div>
+                <div className="patient-name">
+                  {/* <p>DM89006076</p> */}
+                  <h4>Dian Sastrowardoyo</h4>
+                  <p>Reguler</p>
+                </div>
               </div>
-            </div>
-            <div className="header-right align-center">
-              <button className="btn btn-secondary-fill btn-edit-patient" onClick={() => editPatient()}>Edit</button>
-              {/* <Link href="/receptionist/admission/new-admission" className="btn btn-secondary-fill">New Admission</Link>
-              <Link href="/receptionist/admission/reschedule" className="btn btn-secondary-fill">Reschedule</Link>
-              <Link href="/receptionist/admission/new-reschedule" className="btn btn-secondary-fill">New & Reschedule</Link>
-              <a href="#" className="btn btn-secondary-fill">Return / Complain</a> */}
+              <div className="header-right align-center">
+                <button className="btn btn-secondary-fill btn-edit-patient" onClick={() => editPatient()}>Edit</button>
+                {/* <Link href="/receptionist/admission/new-admission" className="btn btn-secondary-fill">New Admission</Link>
+                <Link href="/receptionist/admission/reschedule" className="btn btn-secondary-fill">Reschedule</Link>
+                <Link href="/receptionist/admission/new-reschedule" className="btn btn-secondary-fill">New & Reschedule</Link>
+                <a href="#" className="btn btn-secondary-fill">Return / Complain</a> */}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="section-patient-details-body">
-          <div className="flex flex-column w-90 margin-auto">
-            <div className="flex m-bottom-20">
-              <div className="w-25">
-                <p>Last Visit</p>
-                <h5 className="flex align-center" id="patient-last-visit">
-                  <Image src="/images/icon-calendar.svg" alt="calendar" width={18} height={18} /> <span>14 November 2024</span>
-                </h5>
-              </div>
-              <div className="w-25">
-                <p>Total</p>
-                <h5 className="flex align-center" id="patient-total-visit">
-                  <Image src="/images/icon-time-forward.svg" alt="time forward" width={18} height={18} /> <span>12 Visit <a href="#">History</a></span>
-                </h5>
-              </div>
-              <div className="w-25">
-                <p>Klinik</p>
-                <h5 className="flex align-center" id="patient-last-clinic">
-                  <Image src="/images/icon-map-marker.svg" alt="map marker" width={18} height={18} /> <span>Derma Express Depok</span>
-                </h5>
-              </div>
-              <div className="w-25">
-                <p>Dokter</p>
-                <h5 className="flex align-center" id="patient-last-doctor">
-                  <Image src="/images/icon-medical.svg" alt="medical" width={18} height={18} /> <span>dr. Deffina Widjanarko</span>
-                </h5>
-              </div>
-            </div>
-            <div className="m-bottom-20">
-              <p>Queue Number</p>
-              <h5 id="patient-queue">A0001</h5>
-            </div>
-            <div className="m-bottom-20">
-              <p>Customer ID</p>
-              <h5 id="patient-id">DM89006076</h5>
-            </div>
-            <div className="flex m-bottom-20">
-              <div>
-                <p>ID Type</p>
-                <h5 id="patient-id-type">KTP</h5>
-              </div>
-              <div>
-                <p>ID Card Number</p>
-                <h5 id="patient-id-card-number">1234567890</h5>
-              </div>
-            </div>
-            <div className="m-bottom-20">
-              <p>Phone Number</p>
-              <h5 id="patient-phone-number">+62 81234567890</h5>
-            </div>
-            <div className="m-bottom-20">
-              <p>Address</p>
-              <h5 id="patient-address">Jl. Kutilang No.49, Jakarta</h5>
-            </div>
-            <div className="flex m-bottom-20">
-              <div>
-                <p>Gender</p>
-                <h5 id="patient-gender">Female</h5>
-              </div>
-              <div>
-                <p>Age</p>
-                <h5 id="patient-age">17</h5>
-              </div>
-            </div>
-            <div className="flex m-bottom-20">
-              <div className="w-25">
-                <p>Training</p>
-                <select id="patient-training">
-                  <option value="false">Tidak</option>
-                  <option value="true">Ya</option>
-                </select>
-              </div>
-              <div className="w-25">
-                <p>Endorse</p>
-                <select id="patient-endorse">
-                  <option value="false">Tidak</option>
-                  <option value="true">Ya</option>
-                </select>
-              </div>
-              <div className="w-25">
-                <p>Complain</p>
-                <select id="patient-complain">
-                  <option value="false">Tidak</option>
-                  <option value="true">Ya</option>
-                </select>
-              </div>
-              <div className="w-25">
-                <p>Card</p>
-                <select id="patient-card">
-                  <option value=""></option>
-                  <option value="Yellow">Yellow</option>
-                  <option value="Blue">Blue</option>
-                </select>
-                <span className="error-input"></span>
-              </div>
-            </div>
-            <div className="flex m-bottom-20">
-              <div>
-                <p>Visit Type</p>
-                <div>
-                  <input type="radio" className="visit-type" name="visit-type" value="New" id="visit-type-new" defaultChecked />
-                  <label htmlFor="visit-type-new">New</label>
+          <div className="section-patient-details-body">
+            <div className="flex flex-column w-90 margin-auto">
+              <div className="flex m-bottom-20">
+                <div className="w-25">
+                  <p>Last Visit</p>
+                  <h5 className="flex align-center" id="patient-last-visit">
+                    <Image src="/images/icon-calendar.svg" alt="calendar" width={18} height={18} /> <span>14 November 2024</span>
+                  </h5>
+                </div>
+                <div className="w-25">
+                  <p>Total</p>
+                  <h5 className="flex align-center" id="patient-total-visit">
+                    <Image src="/images/icon-time-forward.svg" alt="time forward" width={18} height={18} /> <span>12 Visit <a href="#">History</a></span>
+                  </h5>
+                </div>
+                <div className="w-25">
+                  <p>Klinik</p>
+                  <h5 className="flex align-center" id="patient-last-clinic">
+                    <Image src="/images/icon-map-marker.svg" alt="map marker" width={18} height={18} /> <span>Derma Express Depok</span>
+                  </h5>
+                </div>
+                <div className="w-25">
+                  <p>Dokter</p>
+                  <h5 className="flex align-center" id="patient-last-doctor">
+                    <Image src="/images/icon-medical.svg" alt="medical" width={18} height={18} /> <span>dr. Deffina Widjanarko</span>
+                  </h5>
                 </div>
               </div>
-              <div>
-                <p></p>
+              <div className="m-bottom-20">
+                <p>Queue Number</p>
+                <h5 id="patient-queue">A0001</h5>
+              </div>
+              <div className="m-bottom-20">
+                <p>Customer ID</p>
+                <h5 id="patient-id">DM89006076</h5>
+              </div>
+              <div className="flex m-bottom-20">
                 <div>
-                  <input type="radio" className="visit-type" name="visit-type" value="Reschedule" id="visit-type-reschedule" />
-                  <label htmlFor="visit-type-reschedule">Reschedule</label>
+                  <p>ID Type</p>
+                  <h5 id="patient-id-type">KTP</h5>
+                </div>
+                <div>
+                  <p>ID Card Number</p>
+                  <h5 id="patient-id-card-number">1234567890</h5>
                 </div>
               </div>
-              <div>
-                <p></p>
+              <div className="m-bottom-20">
+                <p>Phone Number</p>
+                <h5 id="patient-phone-number">+62 81234567890</h5>
+              </div>
+              <div className="m-bottom-20">
+                <p>Address</p>
+                <h5 id="patient-address">Jl. Kutilang No.49, Jakarta</h5>
+              </div>
+              <div className="flex m-bottom-20">
                 <div>
-                  <input type="radio" className="visit-type" name="visit-type" value="New_Reschedule" id="visit-type-new-reschedule" />
-                  <label htmlFor="visit-type-new-reschedule">New & Reschedule</label>
+                  <p>Gender</p>
+                  <h5 id="patient-gender">Female</h5>
+                </div>
+                <div>
+                  <p>Age</p>
+                  <h5 id="patient-age">17</h5>
                 </div>
               </div>
+              <div className="flex m-bottom-20">
+                <div className="w-25">
+                  <p>Training</p>
+                  <select id="patient-training">
+                    <option value="false">Tidak</option>
+                    <option value="true">Ya</option>
+                  </select>
+                </div>
+                <div className="w-25">
+                  <p>Endorse</p>
+                  <select id="patient-endorse">
+                    <option value="false">Tidak</option>
+                    <option value="true">Ya</option>
+                  </select>
+                </div>
+                <div className="w-25">
+                  <p>Complain</p>
+                  <select id="patient-complain">
+                    <option value="false">Tidak</option>
+                    <option value="true">Ya</option>
+                  </select>
+                </div>
+                <div className="w-25">
+                  <p>Card</p>
+                  <select id="patient-card">
+                    <option value=""></option>
+                    <option value="Yellow">Yellow</option>
+                    <option value="Blue">Blue</option>
+                  </select>
+                  <span className="error-input"></span>
+                </div>
+              </div>
+              <div className="flex m-bottom-20">
+                <div>
+                  <p>Visit Type</p>
+                  <div>
+                    <input type="radio" className="visit-type" name="visit-type" value="New" id="visit-type-new" defaultChecked />
+                    <label htmlFor="visit-type-new">New</label>
+                  </div>
+                </div>
+                <div>
+                  <p></p>
+                  <div>
+                    <input type="radio" className="visit-type" name="visit-type" value="Reschedule" id="visit-type-reschedule" />
+                    <label htmlFor="visit-type-reschedule">Reschedule</label>
+                  </div>
+                </div>
+                <div>
+                  <p></p>
+                  <div>
+                    <input type="radio" className="visit-type" name="visit-type" value="New_Reschedule" id="visit-type-new-reschedule" />
+                    <label htmlFor="visit-type-new-reschedule">New & Reschedule</label>
+                  </div>
+                </div>
+              </div>
+              <div className="flex m-bottom-20">
+                <div>
+                  <p>Specialist</p>
+                  <div>
+                    <input type="radio" className="specialist" name="specialist" value="Treatment" id="specialist-treatment" defaultChecked />
+                    <label htmlFor="specialist-treatment">Treatment</label>
+                  </div>
+                </div>
+                <div>
+                  <p></p>
+                  <div>
+                    <input type="radio" className="specialist" name="specialist" value="Pharmacy" id="specialist-pharmacy" />
+                    <label htmlFor="specialist-pharmacy">Pharmacy</label>
+                  </div>
+                </div>
+              </div>
+              <div className="flex m-bottom-20">
+                <div>
+                  <p>Doctor</p>
+                  <select id="patient-doctors">
+                    <option value=""></option>
+                    <option value="doctor_a">dr. Deffina Widjanarko</option>
+                    <option value="doctor_b">Dr. Stephen Strange</option>
+                    <option value="doctor_c">dr. Maria Utami</option>
+                  </select>
+                  <span className="error-input"></span>
+                </div>
+              </div>
+              <div className="m-top-20 result-process text-center"></div>
             </div>
-            <div className="flex m-bottom-20">
-              <div>
-                <p>Specialist</p>
-                <div>
-                  <input type="radio" className="specialist" name="specialist" value="Treatment" id="specialist-treatment" defaultChecked />
-                  <label htmlFor="specialist-treatment">Treatment</label>
-                </div>
-              </div>
-              <div>
-                <p></p>
-                <div>
-                  <input type="radio" className="specialist" name="specialist" value="Pharmacy" id="specialist-pharmacy" />
-                  <label htmlFor="specialist-pharmacy">Pharmacy</label>
-                </div>
-              </div>
-            </div>
-            <div className="flex m-bottom-20">
-              <div>
-                <p>Doctor</p>
-                <select id="patient-doctors">
-                  <option value=""></option>
-                  <option value="doctor_a">dr. Deffina Widjanarko</option>
-                  <option value="doctor_b">Dr. Stephen Strange</option>
-                  <option value="doctor_c">dr. Maria Utami</option>
-                </select>
-                <span className="error-input"></span>
-              </div>
-            </div>
-            <div className="m-top-20 result-process text-center"></div>
           </div>
-        </div>
-        <div className="section-patient-details-footer">
-          <div className="flex align-center justify-content-center w-90 margin-auto">
-            {/* <button href="/receptionist/admission/consultation-room-monitoring" className="btn btn-primary" onClick={() => editCustomerSubmit()}>Next</button> */}
-            <button className="btn btn-primary btn-edit-admission" onClick={() => editAdmissionSubmit()}>Simpan</button>
-            <button className="btn btn-primary-outline btn-cancel-admission">Batal</button>
+          <div className="section-patient-details-footer">
+            <div className="flex align-center justify-content-center w-90 margin-auto">
+              {/* <button href="/receptionist/admission/consultation-room-monitoring" className="btn btn-primary" onClick={() => editCustomerSubmit()}>Next</button> */}
+              <button className="btn btn-primary btn-edit-admission" onClick={() => editAdmissionSubmit()}>Simpan</button>
+              <button className="btn btn-primary-outline btn-cancel-admission">Batal</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   )
 }

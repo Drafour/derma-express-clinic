@@ -4,7 +4,7 @@ import $ from "jquery";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect } from "react";
-import { useRouter, } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { getAdmission } from "../../utils/axios";
 
 export default function Page() {
