@@ -4,84 +4,87 @@ import $ from "jquery";
 import Image from "next/image";
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getCustomerById, getQueueById, getDoctors, addAdmission } from "../../../utils/axios";
+import { getAdmissionById, getDoctors, editAdmission } from "../../../utils/axios";
 import GlobalVariable from "../../../globals.js";
 
 export default function Page() {
   const router = useRouter();
   const params = useSearchParams();
 
-  const queueId    = params.get('id1');
-  const customerId = params.get('id2');
+  const admissionId = params.get('id');
 
   var submit_status = 0;
+  var queueId;
+  var customerId;
 
   useEffect(() => {
     if (localStorage.getItem('token') === null) {
       router.push('/login');
     }
     else {
-      if (customerId) {
+      if (admissionId) {
         const token = localStorage.getItem('token');
 
-        // getQueueById(token, queueId).then(res_1 => {
-        //   console.log(res_1.data.data);
+        getAdmissionById(token, admissionId).then(res_1 => {
+          console.log(res_1.data.data.data);
 
-        //   var queue_number = res_1.data.data.number;
+          var data_admission = res_1.data.data.data;
 
-        //   getCustomerById(token, customerId).then(res_2 => {
-        //     console.log(res_2.data.data);
+          var queue_number   = data_admission.queue.number;
+          var data_patient   = data_admission.customer;
+          var initial_name   = getInitialName(data_patient.name);
+          var patient_age    = calculateAge(data_patient.dateOfBirth);
+          var patient_header = `<div class="patient-picture"><span>` + initial_name + `</span></div>
+                                <div class="patient-name">
+                                  <h4>` + data_patient.name + `</h4>
+                                  <p>Reguler</p>
+                                </div>`;
 
-        //     var data_patient   = res_2.data.data;
-        //     var initial_name   = getInitialName(data_patient.name);
-        //     var patient_age    = calculateAge(data_patient.dateOfBirth);
-        //     var patient_header = `<div class="patient-picture"><span>` + initial_name + `</span></div>
-        //                           <div class="patient-name">
-        //                             <h4>` + data_patient.name + `</h4>
-        //                             <p>Reguler</p>
-        //                           </div>`;
+          queueId    = data_admission.queueId;
+          customerId = data_admission.customerId;
 
-        //     getDoctors(token).then(res_3 => {
-        //       console.log(res_3.data.data.data);
+          getDoctors(token).then(res_2 => {
+            console.log(res_2.data.data.data);
 
-        //       var data_doctor  = res_3.data.data.data;
-        //       var total_doctor = data_doctor.length;
-        //       var div_html     = '<option value=""></option>';
-    
-        //       if (total_doctor > 0) {
-        //         for (var i = 0; i < total_doctor; i++) {
-        //           div_html += `<option value="` + data_doctor[i].id + `">` + data_doctor[i].name + `</option>`;
-        //         }
-        //       }
+            var data_doctor  = res_2.data.data.data;
+            var total_doctor = data_doctor.length;
+            var div_html     = '<option value=""></option>';
+  
+            if (total_doctor > 0) {
+              for (var i = 0; i < total_doctor; i++) {
+                div_html += `<option value="` + data_doctor[i].id + `">` + data_doctor[i].name + `</option>`;
+              }
+            }
 
-        //       $('#patient-doctors').html(div_html);
-        //     }).catch(err_3 => {
-        //       console.log(err_3.response.data);
-        //     });
+            $('#patient-doctors').html(div_html);
+            $('#patient-doctors').val(data_admission.doctorId);
+          }).catch(err_2 => {
+            console.log(err_2.response.data);
+          });
 
-        //     $('.section-patient-details-header .header-left').html(patient_header);
-        //     $('#patient-last-visit span').html('-');
-        //     $('#patient-total-visit span').html('-');
-        //     $('#patient-last-clinic span').html('-');
-        //     $('#patient-last-doctor span').html('-');
-        //     $('#patient-queue').html(queue_number);
-        //     $('#patient-id').html(data_patient.id);
-        //     $('#patient-id-type').html(data_patient.IdType);
-        //     $('#patient-id-card-number').html(data_patient.IdCardNo);
-        //     $('#patient-phone-number').html('+' + data_patient.countryPhoneCode + ' ' + data_patient.phoneNo);
-        //     $('#patient-address').html(data_patient.address);
-        //     $('#patient-gender').html(data_patient.gender);
-        //     $('#patient-age').html(patient_age);
-        //     $('.container-preloader-page').remove();
-        //   }).catch(err_2 => {
-        //     console.log(err_2.response.data);
-        //   });
-        // }).catch(err_1 => {
-        //   console.log(err_1.response.data);
-        // });
-
-
-        $('.container-preloader-page').remove();
+          $('.section-patient-details-header .header-left').html(patient_header);
+          $('#patient-last-visit span').html('-');
+          $('#patient-total-visit span').html('-');
+          $('#patient-last-clinic span').html('-');
+          $('#patient-last-doctor span').html('-');
+          $('#patient-queue').html(queue_number);
+          $('#patient-id').html(data_patient.id);
+          $('#patient-id-type').html(data_patient.IdType);
+          $('#patient-id-card-number').html(data_patient.IdCardNo);
+          $('#patient-phone-number').html('+' + data_patient.countryPhoneCode + ' ' + data_patient.phoneNo);
+          $('#patient-address').html(data_patient.address);
+          $('#patient-gender').html(data_patient.gender);
+          $('#patient-age').html(patient_age);
+          $('#patient-training').val(data_admission.trainingStatus ? 'true' : 'false');
+          $('#patient-endorse').val(data_admission.endorseStatus ? 'true' : 'false');
+          $('#patient-complain').val(data_admission.complainStatus ? 'true' : 'false');
+          $('#patient-card').val(data_admission.cardCategory);
+          $('.visit-type').filter('[value=' + data_admission.visitType + ']').prop('checked', true);
+          $('.specialist').filter('[value=' + data_admission.specialist + ']').prop('checked', true);
+          $('.container-preloader-page').remove();
+        }).catch(err_1 => {
+          console.log(err_1.response.data);
+        });
       }
       else {
         $('.container-preloader-page').remove();
@@ -103,10 +106,10 @@ export default function Page() {
   }
 
   const editPatient = () => {
-    router.push('/receptionist/admission/edit-patient?id1=' + queueId + '&id2=' + customerId);
+    router.push('/receptionist/admission/edit-patient?id1=' + queueId + '&id2=' + customerId + '&b=true');
   }
 
-  const addAdmissionSubmit = () => {
+  const editAdmissionSubmit = () => {
     if (submit_status == 0) {
       const token          = localStorage.getItem('token');
       const clinicId       = GlobalVariable.clinicId;
@@ -134,18 +137,22 @@ export default function Page() {
         submit_status = 1;
 
         $('.btn-edit-patient, #patient-training, #patient-endorse, #patient-complain, #patient-card, .visit-type, .specialist, #patient-doctors').prop('disabled', true);
-        $('.btn-add-admission').html('<div class="spinner"></div>');
+        $('.btn-edit-admission').html('<div class="spinner"></div>');
         
-        // addAdmission(token, {clinicId, customerId, queueId, doctorId, visitType, date, specialist, trainingStatus, endorseStatus, complainStatus, cardCategory}).then(res => {
+        // editAdmission(token, admissionId, {clinicId, customerId, queueId, doctorId, visitType, date, specialist, trainingStatus, endorseStatus, complainStatus, cardCategory}).then(res => {
         //   console.log(res.data);
 
         //   submit_status = 0;
     
         //   $('.btn-edit-patient, #patient-training, #patient-endorse, #patient-complain, #patient-card, .visit-type, .specialist, #patient-doctors').prop('disabled', false);
-        //   $('.btn-add-admission').html('Next');
+        //   $('.btn-edit-admission').html('Next');
 
         //   if (res.data.statusCode == 200) {
-        //     $('.result-process').addClass('success-input').html('Admission berhasil ditambah.');
+        //     $('.result-process').addClass('success-input').html('Admission berhasil diubah.');
+
+        //     setTimeout(function(){
+        //       router.back();
+        //     }, 3000);
         //   }
         //   else {
         //     $('.result-process').addClass('error-input').html('Terjadi kesalahan. Silahkan coba lagi nanti.');
@@ -156,13 +163,13 @@ export default function Page() {
         //   submit_status = 0;
     
         //   $('.btn-edit-patient, #patient-training, #patient-endorse, #patient-complain, #patient-card, .visit-type, .specialist, #patient-doctors').prop('disabled', false);
-        //   $('.btn-add-admission').html('Next');
+        //   $('.btn-edit-admission').html('Next');
         // });
 
 
         setTimeout(function(){
-          $('.btn-add-admission').html('Next');
-          $('.result-process').addClass('success-input').html('Admission berhasil ditambah.');
+          $('.btn-edit-admission').html('Next');
+          $('.result-process').addClass('success-input').html('Admission berhasil diubah.');
 
           setTimeout(function(){
             router.push('/receptionist/admission');
@@ -347,7 +354,7 @@ export default function Page() {
         <div className="section-patient-details-footer">
           <div className="flex align-center justify-content-center w-90 margin-auto">
             {/* <button href="/receptionist/admission/consultation-room-monitoring" className="btn btn-primary" onClick={() => editCustomerSubmit()}>Next</button> */}
-            <button className="btn btn-primary btn-add-admission" onClick={() => addAdmissionSubmit()}>Simpan</button>
+            <button className="btn btn-primary btn-edit-admission" onClick={() => editAdmissionSubmit()}>Simpan</button>
             <button className="btn btn-primary-outline btn-cancel-admission">Batal</button>
           </div>
         </div>

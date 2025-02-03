@@ -1,6 +1,7 @@
 "use client";
 
 import $ from "jquery";
+import Image from "next/image";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { authLogin } from "../utils/axios";
@@ -131,7 +132,7 @@ export default function Page() {
     <div className="container-login">
       <div className="wrapper-login">
         <div className="login-content">
-          <img src="/images/logo-01.svg" alt="Derma Express" />
+          <Image src="/images/logo-01.svg" className="m-top-15 m-bottom-30" alt="Derma Express" width={153} height={107} />
           <h1>Hello!</h1>
           <h5>Welcome back Dermasterian, please log in to start your activities.</h5>
           <div>

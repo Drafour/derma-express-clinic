@@ -3,14 +3,15 @@
 import $ from "jquery";
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getCountry, getProvince, getRegency, addCustomer } from "../../../utils/axios";
+import { getCustomerById, getCountry, getProvince, getRegency, editCustomer } from "../../../utils/axios";
 import GlobalVariable from "../../../globals.js";
 
 export default function Page() {
   const router = useRouter();
   const params = useSearchParams();
 
-  const queueId = params.get('id');
+  const queueId    = params.get('id1');
+  const customerId = params.get('id2');
 
   var submit_status = 0;
   var country_id    = 0;
@@ -23,6 +24,53 @@ export default function Page() {
       $('.container-preloader-page').remove();
 
       const token = localStorage.getItem('token');
+
+      // getCustomerById(token, customerId).then(res_1 => {
+      //   console.log(res_1.data.data);
+
+      //   var data_patient = res_1.data.data;
+
+      //   country_id = data_patient.countryId;
+
+      //   getCountry(token).then(res_2 => {
+      //     console.log(res_2.data);
+
+      //     var data_country  = res_2.data.data.data;
+      //     var total_country = data_country.length;
+      //     var div_html      = `<option value=""></option>`;
+
+      //     for (var i = 0; i < total_country; i++) {
+      //       div_html += `<option value="` + data_country[i].id + `" id="country-` + data_country[i].id + `" data-phone-code="` + data_country[i].phonecode + `">` + data_country[i].name + `</option>`;
+      //     }
+
+      //     $('#patient-country').html(div_html);
+      //     // $('#patient-province').html('').prop('disabled', false);
+      //     // $('#patient-city').html('').prop('disabled', false);
+
+      //     getProvincePatient(data_patient.provinceId, data_patient.cityId);
+
+      //     $('#patient-full-name').val(data_patient.name);
+      //     $('#patient-alias-name').val(data_patient.aliasName);
+      //     $('#patient-gender').val(data_patient.gender);
+      //     $('#patient-id-type').val(data_patient.IdType);
+      //     $('#patient-id-card-number').val(data_patient.IdCardNo);
+      //     $('#patient-place-birth').val(data_patient.placeOfBirth);
+      //     $('#patient-date-birth').val(data_patient.dateOfBirth);
+      //     $('#patient-address').val(data_patient.address);
+      //     $('#patient-country').val(country_id);
+      //     // $('#patient-city').val(data_patient.cityId);
+      //     $('#patient-phone-number').val(data_patient.phoneNo);
+      //     $('#patient-email').val(data_patient.email);
+      //     $('#patient-reference').val(data_patient.reference);
+      //     $('#patient-customer-status').val(data_patient.customerStatus);
+      //     $('#patient-active-status').val(data_patient.activeStatus ? 'active' : 'inactive');
+      //   }).catch(err_2 => {
+      //     console.log(err_2.response.data);
+      //   });
+      // }).catch(err_1 => {
+      //   console.log(err_1.response.data);
+      // });
+      
 
       getCountry(token).then(res => {
         console.log(res.data);
@@ -48,54 +96,16 @@ export default function Page() {
     $('#patient-country').on('change', function(){
       country_id = this.value;
 
-      var phone_code = $('#country-' + country_id).attr('data-phone-code');
-
-      $('#patient-country-phone-code').val(phone_code);
-
-      const token     = localStorage.getItem('token');
-      const countryId = country_id;
-
-      getProvince(token, countryId).then(res => {
-        console.log(res.data);
-
-        var data_province  = res.data.data.data;
-        var total_province = data_province.length;
-        var div_html       = `<option value=""></option>`;
-
-        for (var i = 0; i < total_province; i++) {
-          div_html += `<option value="` + data_province[i].id + `">` + data_province[i].name + `</option>`;
-        }
-
-        $('#patient-province').html(div_html).prop('disabled', false);
-        $('#patient-city').html('').prop('disabled', true);
-      }).catch(err => {
-        console.log(err.response.data);
-      });
+      getProvincePatient();
     });
 
     $('#patient-province').on('change', function(){
-      const token      = localStorage.getItem('token');
-      const countryId  = country_id;
       const provinceId = this.value;
 
-      getRegency(token, countryId, provinceId).then(res => {
-        console.log(res.data);
-
-        var data_city  = res.data.data.data;
-        var total_city = data_city.length;
-        var div_html       = `<option value=""></option>`;
-
-        for (var i = 0; i < total_city; i++) {
-          div_html += `<option value="` + data_city[i].id + `">` + data_city[i].name + `</option>`;
-        }
-
-        $('#patient-city').html(div_html).prop('disabled', false);
-      }).catch(err => {
-        console.log(err.response.data);
-      });
+      getCityPatient(provinceId);
     });
 
-    $('#patient-phone-number').on('keydown',function(e){
+    $('#patient-phone-number').on('keydown', function(e){
       // Allow: backspace, delete, tab, escape, and f5
       if ($.inArray(e.keyCode, [8, 46, 9, 27, 116]) !== -1 ||
         // Allow: Ctrl+A, Command+A
@@ -141,7 +151,65 @@ export default function Page() {
     }
   });
 
-  const addCustomerSubmit = async () => {
+  const getProvincePatient = (provinceId=false, cityId=false) => {
+    var phone_code = $('#country-' + country_id).attr('data-phone-code');
+
+    $('#patient-country-phone-code').val(phone_code);
+
+    const token     = localStorage.getItem('token');
+    const countryId = country_id;
+
+    getProvince(token, countryId).then(res => {
+      console.log(res.data);
+
+      var data_province  = res.data.data.data;
+      var total_province = data_province.length;
+      var div_html       = `<option value=""></option>`;
+
+      for (var i = 0; i < total_province; i++) {
+        div_html += `<option value="` + data_province[i].id + `">` + data_province[i].name + `</option>`;
+      }
+
+      $('#patient-province').html(div_html).prop('disabled', false);
+      $('#patient-city').html('').prop('disabled', true);
+
+      if (provinceId) {
+        $('#patient-province').val(provinceId);
+
+        getCityPatient(provinceId, cityId);
+      }
+    }).catch(err => {
+      console.log(err.response.data);
+    });
+  }
+
+  const getCityPatient = (provinceId, cityId=false) => {
+    const token      = localStorage.getItem('token');
+    const countryId  = country_id;
+    // const provinceId = this.value;
+
+    getRegency(token, countryId, provinceId).then(res => {
+      console.log(res.data);
+
+      var data_city  = res.data.data.data;
+      var total_city = data_city.length;
+      var div_html       = `<option value=""></option>`;
+
+      for (var i = 0; i < total_city; i++) {
+        div_html += `<option value="` + data_city[i].id + `">` + data_city[i].name + `</option>`;
+      }
+
+      $('#patient-city').html(div_html).prop('disabled', false);
+
+      if (provinceId && cityId) {
+        $('#patient-city').val(cityId);
+      }
+    }).catch(err => {
+      console.log(err.response.data);
+    });
+  }
+
+  const editCustomerSubmit = async () => {
     if (submit_status == 0) {
       const token            = localStorage.getItem('token');
       const clinicId         = GlobalVariable.clinicId;
@@ -245,21 +313,26 @@ export default function Page() {
         activeStatus = activeStatus == 'active' ? true : false;
 
         $('#patient-full-name, #patient-alias-name, #patient-gender, #patient-id-type, #patient-id-card-number, #patient-place-birth, #patient-date-birth, #patient-address, #patient-country, #patient-province, #patient-city, #patient-country-phone-code, #patient-phone-number, #patient-email, #patient-reference, #patient-customer-status, #patient-active-status').prop('disabled', true);
-        $('.btn-add-customer').html('<div class="spinner"></div>');
+        $('.btn-edit-customer').html('<div class="spinner"></div>');
 
-        // addCustomer(token, {clinicId, name, aliasName, gender, IdType, IdCardNo, placeOfBirth, dateOfBirth, address, countryId, provinceId, cityId, countryPhoneCode, phoneNo, email, reference, customerStatus, activeStatus}).then(res => {
+        // editCustomer(token, customerId, {clinicId, name, aliasName, gender, IdType, IdCardNo, placeOfBirth, dateOfBirth, address, countryId, provinceId, cityId, countryPhoneCode, phoneNo, email, reference, customerStatus, activeStatus}).then(res => {
         //   console.log(res.data);
 
         //   submit_status = 0;
           
         //   $('#patient-full-name, #patient-alias-name, #patient-gender, #patient-id-type, #patient-id-card-number, #patient-place-birth, #patient-date-birth, #patient-address, #patient-country, #patient-province, #patient-city, #patient-country-phone-code, #patient-phone-number, #patient-email, #patient-reference, #patient-customer-status, #patient-active-status').prop('disabled', false);
-        //   $('.btn-add-customer').html('Next');
+        //   $('.btn-edit-customer').html('Next');
 
-        //   if (res.data.statusCode == 201) {
-        //     $('.result-process').addClass('success-input').html('Customer berhasil ditambahkan.');
+        //   if (res.data.statusCode == 200) {
+        //     $('.result-process').addClass('success-input').html('Customer berhasil diubah.');
 
         //     setTimeout(function(){
-        //       router.push('/receptionist/admission/new-admission?id1=' + queueId + '&id2=' + res.data.data.id);
+        //       if (params.get('b') && params.get('b') == 'true') {
+        //         router.back();
+        //       }
+        //       else {
+        //         router.push('/receptionist/admission/new-admission?id1=' + queueId + '&id2=' + res.data.data.id);
+        //       }
         //     }, 3000);
         //   }
         //   else {
@@ -271,14 +344,14 @@ export default function Page() {
         //   submit_status = 0;
     
         //   $('#patient-full-name, #patient-alias-name, #patient-gender, #patient-id-type, #patient-id-card-number, #patient-place-birth, #patient-date-birth, #patient-address, #patient-country, #patient-province, #patient-city, #patient-country-phone-code, #patient-phone-number, #patient-email, #patient-reference, #patient-customer-status, #patient-active-status').prop('disabled', false);
-        //   $('.btn-add-customer').html('Next');
+        //   $('.btn-edit-customer').html('Next');
         //   $('.result-process').addClass('error-input').html(`${err.response.data.message}`);
         // });
 
 
         setTimeout(function(){
-          $('.btn-add-customer').html('Next');
-          $('.result-process').addClass('success-input').html('Customer berhasil ditambahkan.');
+          $('.btn-edit-customer').html('Next');
+          $('.result-process').addClass('success-input').html('Customer berhasil diubah.');
 
           setTimeout(function(){
             router.push('/receptionist/admission/new-admission');
@@ -434,7 +507,7 @@ export default function Page() {
         </div>
         <div className="section-patient-details-footer">
           <div className="flex align-center justify-content-center w-90 margin-auto">
-            <button className="btn btn-primary btn-add-customer" onClick={() => addCustomerSubmit()}>Next</button>
+            <button className="btn btn-primary btn-edit-customer" onClick={() => editCustomerSubmit()}>Next</button>
           </div>
         </div>
       </div>

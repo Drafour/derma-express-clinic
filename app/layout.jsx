@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
       <body className="text-black">
         <Header/>
         <Sidebar />
-        <main className="container-body">{children}</main>
+        <main>{children}</main>
         <div className="container-preloader-page"></div>
       </body>
     </html>

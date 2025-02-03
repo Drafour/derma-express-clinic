@@ -3,17 +3,40 @@
 import $ from "jquery";
 import Link from "next/link";
 import Image from "next/image";
+import { jwtDecode } from "jwt-decode";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+
 import GlobalVariable from "../globals.js";
 
 export default function Header() {
   const pathname = usePathname();
 
+  console.log('pathname = '+pathname);
+
   useEffect(() => {
+    if (localStorage.getItem('token') !== null) {
+      const token    = localStorage.getItem('token');
+      const decoded  = jwtDecode(token);
+      const exp      = decoded.exp;
+      // const date_exp = new Date(exp * 1000);
+      const date_now = new Date();
+      const now      = parseInt(date_now.getTime() / 1000);
+
+      console.log(token);
+
+      if (now >= exp) {
+        logoutSubmit();
+      }
+    }
+
     if (pathname == '/login') {
-      console.log('masook');
       $('.container-navbar').remove();
+    }
+    else if (pathname == '/queue') {
+      GlobalVariable.activePage = 'queue';
+
+      $('.header-title').html('Queue');
     }
     else if (pathname.indexOf('receptionist') >= 0) {
       GlobalVariable.activePage = 'receptionist';
@@ -40,10 +63,16 @@ export default function Header() {
 
       $('.header-title').html('treatment');
     }
+
+    if (pathname == '/queue/display') {
+      $('.container-navbar').addClass('hidden');
+    }
+    else {
+      $('.container-navbar').removeClass('hidden');
+    }
   });
 
   const toggleDropdownUser = () => {
-    console.log('ok');
     var obj = $('.dropdown-user .dropdown-content');
 
     if (obj.hasClass('hidden')) {

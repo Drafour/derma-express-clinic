@@ -18,7 +18,7 @@ export default function Page() {
   });
 
   const printDiv = () => {
-    var divToPrint = document.getElementById('DivIdToPrint');
+    var divToPrint = document.getElementById('container-print');
     var newWin     = window.open('', 'Print-Window');
     var content    = `<html>
                         <head>
@@ -36,7 +36,7 @@ export default function Page() {
     newWin.document.close();
 
     setTimeout(function(){
-      newWin.close();
+      // newWin.close();
     }, 10);
   }
 
@@ -132,7 +132,7 @@ export default function Page() {
                 <button className="btn btn-primary">Call</button>
               </div>
               
-              <div className="hidden" id="DivIdToPrint">
+              <div className="hidden" id="container-print">
                 <div style={{padding:'15px',width:'200px',backgroundColor:'#fff'}}>
                   <div style={{paddingBottom:'15px',textAlign:'center'}}>
                     <h3 style={{margin:'0'}}>Derma Express</h3>
