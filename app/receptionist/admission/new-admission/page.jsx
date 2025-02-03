@@ -11,8 +11,8 @@ export default function Page() {
   const router = useRouter();
   const params = useSearchParams();
 
-  const queueId    = params.get('id1');
-  const customerId = params.get('id2');
+  // const queueId    = params.get('id1');
+  // const customerId = params.get('id2');
 
   var submit_status = 0;
 
@@ -21,71 +21,71 @@ export default function Page() {
       router.push('/login');
     }
     else {
-      if (customerId) {
-        const token = localStorage.getItem('token');
+      // if (customerId) {
+      //   const token = localStorage.getItem('token');
 
-        // getQueueById(token, queueId).then(res_1 => {
-        //   console.log(res_1.data.data);
+      //   getQueueById(token, queueId).then(res_1 => {
+      //     console.log(res_1.data.data);
 
-        //   var queue_number = res_1.data.data.number;
+      //     var queue_number = res_1.data.data.number;
 
-        //   getCustomerById(token, customerId).then(res_2 => {
-        //     console.log(res_2.data.data);
+      //     getCustomerById(token, customerId).then(res_2 => {
+      //       console.log(res_2.data.data);
 
-        //     var data_patient   = res_2.data.data;
-        //     var initial_name   = getInitialName(data_patient.name);
-        //     var patient_age    = calculateAge(data_patient.dateOfBirth);
-        //     var patient_header = `<div class="patient-picture"><span>` + initial_name + `</span></div>
-        //                           <div class="patient-name">
-        //                             <h4>` + data_patient.name + `</h4>
-        //                             <p>Reguler</p>
-        //                           </div>`;
+      //       var data_patient   = res_2.data.data;
+      //       var initial_name   = getInitialName(data_patient.name);
+      //       var patient_age    = calculateAge(data_patient.dateOfBirth);
+      //       var patient_header = `<div class="patient-picture"><span>` + initial_name + `</span></div>
+      //                             <div class="patient-name">
+      //                               <h4>` + data_patient.name + `</h4>
+      //                               <p>Reguler</p>
+      //                             </div>`;
 
-        //     getDoctors(token).then(res_3 => {
-        //       console.log(res_3.data.data.data);
+      //       getDoctors(token).then(res_3 => {
+      //         console.log(res_3.data.data.data);
 
-        //       var data_doctor  = res_3.data.data.data;
-        //       var total_doctor = data_doctor.length;
-        //       var div_html     = '<option value=""></option>';
+      //         var data_doctor  = res_3.data.data.data;
+      //         var total_doctor = data_doctor.length;
+      //         var div_html     = '<option value=""></option>';
     
-        //       if (total_doctor > 0) {
-        //         for (var i = 0; i < total_doctor; i++) {
-        //           div_html += `<option value="` + data_doctor[i].id + `">` + data_doctor[i].name + `</option>`;
-        //         }
-        //       }
+      //         if (total_doctor > 0) {
+      //           for (var i = 0; i < total_doctor; i++) {
+      //             div_html += `<option value="` + data_doctor[i].id + `">` + data_doctor[i].name + `</option>`;
+      //           }
+      //         }
 
-        //       $('#patient-doctors').html(div_html);
-        //     }).catch(err_3 => {
-        //       console.log(err_3.response.data);
-        //     });
+      //         $('#patient-doctors').html(div_html);
+      //       }).catch(err_3 => {
+      //         console.log(err_3.response.data);
+      //       });
 
-        //     $('.section-patient-details-header .header-left').html(patient_header);
-        //     $('#patient-last-visit span').html('-');
-        //     $('#patient-total-visit span').html('-');
-        //     $('#patient-last-clinic span').html('-');
-        //     $('#patient-last-doctor span').html('-');
-        //     $('#patient-queue').html(queue_number);
-        //     $('#patient-id').html(data_patient.id);
-        //     $('#patient-id-type').html(data_patient.IdType);
-        //     $('#patient-id-card-number').html(data_patient.IdCardNo);
-        //     $('#patient-phone-number').html('+' + data_patient.countryPhoneCode + ' ' + data_patient.phoneNo);
-        //     $('#patient-address').html(data_patient.address);
-        //     $('#patient-gender').html(data_patient.gender);
-        //     $('#patient-age').html(patient_age);
-        //     $('.container-preloader-page').remove();
-        //   }).catch(err_2 => {
-        //     console.log(err_2.response.data);
-        //   });
-        // }).catch(err_1 => {
-        //   console.log(err_1.response.data);
-        // });
+      //       $('.section-patient-details-header .header-left').html(patient_header);
+      //       $('#patient-last-visit span').html('-');
+      //       $('#patient-total-visit span').html('-');
+      //       $('#patient-last-clinic span').html('-');
+      //       $('#patient-last-doctor span').html('-');
+      //       $('#patient-queue').html(queue_number);
+      //       $('#patient-id').html(data_patient.id);
+      //       $('#patient-id-type').html(data_patient.IdType);
+      //       $('#patient-id-card-number').html(data_patient.IdCardNo);
+      //       $('#patient-phone-number').html('+' + data_patient.countryPhoneCode + ' ' + data_patient.phoneNo);
+      //       $('#patient-address').html(data_patient.address);
+      //       $('#patient-gender').html(data_patient.gender);
+      //       $('#patient-age').html(patient_age);
+      //       $('.container-preloader-page').remove();
+      //     }).catch(err_2 => {
+      //       console.log(err_2.response.data);
+      //     });
+      //   }).catch(err_1 => {
+      //     console.log(err_1.response.data);
+      //   });
+      // }
+      // else {
+      //   $('.container-preloader-page').remove();
+      // }
 
 
-        $('.container-preloader-page').remove();
-      }
-      else {
-        $('.container-preloader-page').remove();
-      }
+      $('.container-preloader-page').remove();
     }
   });
 
@@ -103,7 +103,8 @@ export default function Page() {
   }
 
   const editPatient = () => {
-    router.push('/receptionist/admission/edit-patient?id1=' + queueId + '&id2=' + customerId);
+    // router.push('/receptionist/admission/edit-patient?id1=' + queueId + '&id2=' + customerId);
+    router.push('/receptionist/admission/edit-patient');
   }
 
   const addAdmissionSubmit = () => {

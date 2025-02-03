@@ -9,7 +9,7 @@ export default function Page() {
   const router = useRouter();
   const params = useSearchParams();
 
-  const queueId = params.get('id');
+  // const queueId = params.get('id');
 
   var submit_status = 0;
 
@@ -61,14 +61,18 @@ export default function Page() {
 
           if (total_patient > 0) {
             for (var i = 0; i < total_patient; i++) {
-              div_html += `<li><a href="/receptionist/admission/new-admission?id1=` + queueId + `&id2=` + data_patient[i].id + `">` + data_patient[i].name + `</a></li>`;
+              // div_html += `<li><a href="/receptionist/admission/new-admission?id1=` + queueId + `&id2=` + data_patient[i].id + `">` + data_patient[i].name + `</a></li>`;
+              div_html += `<li><a href="/receptionist/admission/new-admission</a></li>`;
             }
 
-            div_html += `<li><a href="/receptionist/admission/add-patient?id=` + queueId + `" class="add-new">+ Tambah Baru</a></li>`;
+            // div_html += `<li><a href="/receptionist/admission/add-patient?id=` + queueId + `" class="add-new">+ Tambah Baru</a></li>`;
+            div_html += `<li><a href="/receptionist/admission/add-patient" class="add-new">+ Tambah Baru</a></li>`;
           }
           else {
+            // div_html += `<li><span>Pasien tidak ditemukan.</span></li>
+            //              <li><a href="/receptionist/admission/add-patient?id=` + queueId + `" class="add-new">+ Tambah Baru</a></li>`;
             div_html += `<li><span>Pasien tidak ditemukan.</span></li>
-                         <li><a href="/receptionist/admission/add-patient?id=` + queueId + `" class="add-new">+ Tambah Baru</a></li>`;
+                        <li><a href="/receptionist/admission/add-patient" class="add-new">+ Tambah Baru</a></li>`;
           }
 
           $('.dropdown-search .dropdown-content').html(div_html);

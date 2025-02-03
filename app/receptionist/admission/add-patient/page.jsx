@@ -10,7 +10,7 @@ export default function Page() {
   const router = useRouter();
   const params = useSearchParams();
 
-  const queueId = params.get('id');
+  // const queueId = params.get('id');
 
   var submit_status = 0;
   var country_id    = 0;
