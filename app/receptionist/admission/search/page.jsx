@@ -7,7 +7,7 @@ import { searchCustomer } from "../../../utils/axios";
 
 export default function Page() {
   const router = useRouter();
-  const params = useSearchParams();
+  // const params = useSearchParams();
 
   // const queueId = params.get('id');
 

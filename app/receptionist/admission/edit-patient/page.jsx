@@ -8,7 +8,7 @@ import GlobalVariable from "../../../globals.js";
 
 export default function Page() {
   const router = useRouter();
-  const params = useSearchParams();
+  // const params = useSearchParams();
 
   // const queueId    = params.get('id1');
   // const customerId = params.get('id2');
